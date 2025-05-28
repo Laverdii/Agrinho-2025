@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impactos do Desmatamento</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.4/babel.min.js"></script>
+    <link rel="icon" type="image/png" href="istockphoto-1350160156-612x612.jpg" />
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const App = () => {
+            const [showRegisterModal, setShowRegisterModal] = useState(false);
+            const [showLoginModal, setShowLoginModal] = useState(false);
+            const [registerData, setRegisterData] = useState({ email: '', password: '' });
+            const [loginData, setLoginData] = useState({ email: '', password: '' });
+            const [message, setMessage] = useState('');
+
+            const handleRegister = async (e) => {
+                e.preventDefault();
+                try {
+                    const response = await axios.post('http://localhost:5000/api/register', registerData);
+                    setMessage(response.data.message);
+                    setShowRegisterModal(false);
+                    setRegisterData({ email: '', password: '' });
+                } catch (error) {
+                    setMessage(error.response?.data.message || 'Error registering');
+                }
+            };
+
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                try {
+                    const response = await axios.post('http://localhost:5000/api/login', loginData);
+                    setMessage(response.data.message);
+                    setShowLoginModal(false);
+                    setLoginData({ email: '', password: '' });
+                } catch (error) {
+                    setMessage(error.response?.data.message || 'Error logging in');
+                }
+            };
+
+            return (
+                <div className="font-sans bg-black text-gray-300 min-h-screen">
+                    {/* Header */}
+                    <header className="bg-[#00cc99] text-black text-center p-5">
+                        <h1 className="text-3xl font-bold">Impactos do Desmatamento</h1>
+                        <p>Preservando a natureza para um futuro sustentável.</p>
+                        <div className="absolute top-5 right-5 flex space-x-3">
+                            <button
+                                onClick={() => setShowRegisterModal(true)}
+                                className="bg-[#00cc99] text-black px-4 py-2 rounded hover:bg-[#00b386]"
+                            >
+                                Cadastrar
+                            </button>
+                            <button
+                                onClick={() => setShowLoginModal(true)}
+                                className="bg-[#00cc99] text-black px-4 py-2 rounded hover:bg-[#00b386]"
+                            >
+                                Entrar
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Navigation */}
+                    <nav className="flex justify-center bg-[#004d33] p-3">
+                        <a href="#problems" className="text-[#00cc99] mx-4 font-bold hover:text-white">Problemas</a>
+                        <a href="#conclusion" className="text-[#00cc99] mx-4 font-bold hover:text-white">Conclusão</a>
+                    </nav>
+
+                    {/* Main Content */}
+                    <div className="content max-w-3xl mx-auto my-5 p-5 bg-[#1a1a1a] rounded-lg">
+                        <h2 id="problems" className="text-[#00cc99] text-2xl">Problemas Ambientais</h2>
+                        <h3 className="text-xl mt-4">Aumento das Enchentes</h3>
+                        <p className="leading-relaxed">As árvores absorvem água da chuva e ajudam na infiltração no solo. Sem vegetação, a água escoa rapidamente, causando enchentes.</p>
+                        <h3 className="text-xl mt-4">Calor Excessivo e Ilhas de Calor</h3>
+                        <p className="leading-relaxed">O desmatamento reduz a evapotranspiração das plantas, elevando a temperatura das cidades e aumentando o efeito das ilhas de calor.</p>
+                        <h3 className="text-xl mt-4">Redução da Qualidade de Vida</h3>
+                        <p className="leading-relaxed">A destruição das florestas impacta a biodiversidade, aumenta a poluição e reduz o contato com áreas verdes, afetando a saúde mental e respiratória.</p>
+                         {/* New Image Section */}
+                         <div className="max-w-3xl mx-auto my-5 p-5">
+                         <img src="istockphoto-538745647-612x612.jpg" alt="Impacto do Desmatamento" className="w-full h-auto rounded-lg" />
+                         </div>
+                        <a href="#conclusion" className="inline-block bg-[#00cc99] text-black px-5 py-2 rounded mt-3 hover:bg-[#00b386]">Saiba Mais</a>
+                    </div>
+
+                    <div className="content max-w-3xl mx-auto my-5 p-5 bg-[#1a1a1a] rounded-lg">
+                        <h2 id="conclusion" className="text-[#00cc99] text-2xl">Conclusão</h2>
+                        <p className="leading-relaxed">O desmatamento é uma das maiores ameaças ao equilíbrio ambiental do planeta. Ele não apenas destrói habitats naturais, levando à extinção de espécies, mas também contribui para mudanças climáticas globais ao liberar grandes quantidades de carbono armazenado nas árvores. Além disso, a remoção de florestas reduz a capacidade do planeta de absorver dióxido de carbono, agravando o efeito estufa. A perda de áreas verdes também afeta diretamente as comunidades locais, que dependem das florestas para sua subsistência, cultura e bem-estar. Para combater esses impactos, é fundamental adotar práticas sustentáveis, como o reflorestamento, a criação de políticas públicas mais rigorosas contra o desmatamento ilegal e o incentivo à educação ambiental. Somente com ações coletivas e conscientes poderemos proteger as florestas e garantir um futuro saudável para as próximas gerações.</p>
+                    </div>
+
+                    {/* Comments Section */}
+                    <div className="content max-w-3xl mx-auto my-5 p-5 bg-[#1a1a1a] rounded-lg">
+                        <h2 className="text-[#00cc99] text-2xl">Comentários</h2>
+                        <div className="comment-section mt-5">
+                            <textarea id="comment-input" rows="4" placeholder="Deixe seu comentário aqui..." className="w-full p-3 mt-3 bg-[#2a2a2a] text-gray-300 border border-[#00cc99] rounded resize-y"></textarea>
+                            <a href="#" className="button inline-block bg-[#00cc99] text-black px-5 py-2 rounded mt-3 hover:bg-[#00b386]" onClick={() => addComment()}>Enviar Comentário</a>
+                            <div id="comments-list">
+                                <div className="comment bg-[#2a2a2a] p-3 mt-3 rounded">
+                                    <p><strong>Usuário Anônimo</strong> - 28/05/2025 às 08:42</p>
+                                    <p>Excelente conteúdo! Precisamos de mais iniciativas para proteger nossas florestas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Message Display */}
+                    {message && (
+                        <div className="fixed bottom-5 right-5 bg-[#00cc99] text-black p-3 rounded">
+                            {message}
+                        </div>
+                    )}
+
+                    {/* Register Modal */}
+                    {showRegisterModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-[#1a1a1a] p-5 rounded-lg w-96">
+                                <h2 className="text-[#00cc99] text-xl mb-4">Cadastrar</h2>
+                                <form onSubmit={handleRegister}>
+                                    <div className="mb-4">
+                                        <label className="block mb-2">Email:</label>
+                                        <input
+                                            type="email"
+                                            value={registerData.email}
+                                            onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                                            className="w-full p-2 bg-[#2a2a2a] text-gray-300 border border-[#00cc99] rounded"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-2">Senha:</label>
+                                        <input
+                                            type="password"
+                                            value={registerData.password}
+                                            onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                                            className="w-full p-2 bg-[#2a2a2a] text-gray-300 border border-[#00cc99] rounded"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex justify-end space-x-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowRegisterModal(false)}
+                                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="bg-[#00cc99] text-black px-4 py-2 rounded hover:bg-[#00b386]"
+                                        >
+                                            Cadastrar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Login Modal */}
+                    {showLoginModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-[#1a1a1a] p-5 rounded-lg w-96">
+                                <h2 className="text-[#00cc99] text-xl mb-4">Entrar</h2>
+                                <form onSubmit={handleLogin}>
+                                    <div className="mb-4">
+                                        <label className="block mb-2">Email:</label>
+                                        <input
+                                            type="email"
+                                            value={loginData.email}
+                                            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                                            className="w-full p-2 bg-[#2a2a2a] text-gray-300 border border-[#00cc99] rounded"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-2">Senha:</label>
+                                        <input
+                                            type="password"
+                                            value={loginData.password}
+                                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                                            className="w-full p-2 bg-[#2a2a2a] text-gray-300 border border-[#00cc99] rounded"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex justify-end space-x-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowLoginModal(false)}
+                                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="bg-[#00cc99] text-black px-4 py-2 rounded hover:bg-[#00b386]"
+                                        >
+                                            Entrar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+        // Comment function (unchanged from previous implementation)
+        function addComment() {
+            const commentInput = document.getElementById('comment-input');
+            const commentText = commentInput.value.trim();
+            
+            if (commentText === '') {
+                alert('Por favor, escreva um comentário antes de enviar.');
+                return;
+            }
+
+            const commentsList = document.getElementById('comments-list');
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment', 'bg-[#2a2a2a]', 'p-3', 'mt-3', 'rounded');
+            
+            const timestamp = '28/05/2025 às 08:46';
+            newComment.innerHTML = `
+                <p><strong>Usuário Anônimo</strong> - ${timestamp}</p>
+                <p>${commentText}</p>
+            `;
+            
+            commentsList.appendChild(newComment);
+            commentInput.value = ''; // Clear the textarea
+        }
+    </script>
+</body>
+</html>
